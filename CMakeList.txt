@@ -1,0 +1,27 @@
+cmake_minimum_required(VERSION 3.15)
+
+project(ParseCSV)
+
+option(PARSECSV_TESTS "Build test suite" OFF)
+option(PARSECSV_COVER "Add code coverage" OFF)
+option(PARSECSV_EXAMPLES "Build SigFn examples" ON)
+option(PARSECSV_DOCS "Build documentation" OFF)
+
+set(PARSECSV_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+file(GLOB PARSECSV_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp)
+
+add_subdirectory(src)
+
+if(PARSECSV_TESTS)
+    include(CTest)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
+
+if(PARSECSV_EXAMPLES)
+    add_subdirectory(examples)
+endif()
+
+if(PARSECSV_DOCS)
+    add_subdirectory(docs)
+endif()
