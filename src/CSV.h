@@ -37,5 +37,8 @@ private:
 
 	std::vector<std::vector<std::string>> matrix;
 
+	std::string* instances; //declare as dynamic array later in program
+	int instanceCount = 0;
+
 };
 
