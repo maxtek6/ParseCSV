@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iomanip>
 #include <string>
+#include <vector>
 
 class CSV
 {
@@ -17,23 +18,24 @@ public:
 protected:
 
 	void Input();
-	void Search();
-	void Editor(std::string /*fileName*/); //open file if it's not already open
-
+	void Search(std::string);
+	void Editor(int, int); //open file if it's not already open
+	void PrintToFile(); //To be used in the future
 
 private:
 
 	std::string rowName, columnName;
 
-	std::string* Column = new std::string[rowCount];
-	std::string* Row = new std::string[columnCount];
-
+	// std::string* Column = new std::string[columnCount];
+	// std::string* Row = new std::string[rowCount];
 	std::string fileName;
 
 	int columnCount, rowCount;
 
 	std::ifstream fin;
 	std::ofstream fout;
+
+	std::vector<std::vector<std::string>> matrix;
 
 };
 
