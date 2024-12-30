@@ -20,6 +20,30 @@ CSV::~CSV()
 	// delete[]Row;
 }
 
+//Public
+
+void CSV::setRowName(std::string row)
+{
+	rowName = row;
+}
+
+void CSV::setColName(std::string col)
+{
+	columnName = col;
+}
+
+std::string CSV::getRowName() const
+{
+	return rowName;
+}
+
+std::string CSV::getColName() const
+{
+	return columnName;
+}
+
+//Protected
+
 void CSV::Input()
 {
 	
@@ -62,6 +86,8 @@ void CSV::Search(std::string query)
 					fout.close();
 					fout.open(in + ".txt");
 
+					std::cout << "Any pre existing files that share the name " << in << ".txt will be erased and overwritten, press 'N' to change the file name...";
+
 					fout << "Query: " << query << "\nLocation: (" << (x+1) << ", " << (x+1) << ").\nInstances: 1";
 
 					fout.close();
@@ -73,25 +99,57 @@ void CSV::Search(std::string query)
 	}
 }
 
-void CSV::Editor(int row, int col)
+void CSV::Editor(int *row, int *col)
 {
 
 	std::string input;
-	std::cout << "Current output at (" << (--row) << ", " << (--col) << "): " << matrix.at(row).at(col) << std::endl;
+	std::cout << "Current output at (" << (*--row) << ", " << (*--col) << "): " << matrix.at(*row).at(*col) << std::endl;
 
 	std::cout << "Enter updated data: ";
 	std::cin.ignore();
 	getline(std::cin, input);
 
+	matrix.at(*row).at(*col) = input;
+
+	// for(int x=0; x<*row; x++)
+	// {
+	// 	for(int y=0; y<*col; y++)
+	// 	{
+	// 		matrix.at(x).at(y) = "";
+	// 		std::cout << "Enter updated data: ";
+
+	// 		std::cin.clear();
+	// 		std::cin.ignore();
+	// 		getline(std::cin, input);
+	// 	}
+	// }
+
+	PrintToFile();
+
+}
+
+//9 is filler
+int CSV::counter(std::string *query)
+{
+
+	instanceCount = 0;
+	instances = new std::string[instanceCount];
+
 	for(int x=0; x<rowCount; x++)
 	{
 		for(int y=0; y<columnCount; y++)
 		{
-			//delete file contents and replace with updated contents
-			//eventually find out a way to replace JUST that specific portion instead of wiping everything clean
+			if(matrix.at(x).at(y) == *query)
+			{
+
+				*instances = matrix.at(x).at(y);
+				instanceCount++;
+
+			}
 		}
 	}
 
-	PrintToFile();
+	loc = instanceCount;
 
+	return instanceCount;
 }
